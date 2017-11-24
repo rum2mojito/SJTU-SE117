@@ -22,13 +22,12 @@ bool check = true;
 int brackets = 0;
 int memory = 0;
 bool cont = true;
-bool see = true;
+bool see = false;
 
 //functions
 void trans (char str[]);
 void num_of_char (char str[]);
 void op(int k);
-void test();
 void arrange();
 void go2();
 void counting(int k,int m);
@@ -45,10 +44,18 @@ int main()
     cout << "> ";
     cin >> input;
 
-    num_of_char (input);
-    trans (input);
-    arrange();
-    go2();
+    for(int h=0;h<10000;++h){
+        if (input [h]>='0' && input[h] <= '9')
+            continue;
+        else if (input[h] == 'Q' || input[h] == 'M' || input[h] == 'C' || input[h] == 'R' || input[h] == '+' || input[h] == '-')
+            continue;
+        else if (input[h] == '*' || input[h] == '/' || input[h] == '(' || input[h] == ')' || input[h] == '!' || input[h] == '%')
+            continue;
+        else if (input[h] == '\0')
+            break;
+        else
+            check = false;
+    }
 
     if (input[0] == 'Q'){
         cont = false;
@@ -74,10 +81,6 @@ int main()
     else
         see = true;
 
-    if (check && see) cout << "= " << d[0].num <<endl;
-    if (!check && see)
-        cout << "error" <<endl;
-
     if (cont && see){
         for (int i=0;i<100000;++i){
             d[i].num = 0;
@@ -88,6 +91,17 @@ int main()
         }
         check = true;
     }
+
+    num_of_char (input);
+    trans (input);
+    arrange();
+    go2();
+
+    if (check && see) cout << "= " << d[0].num <<endl;
+    if (!check && see)
+        cout << "error" <<endl;
+
+
 
     main();
 
@@ -311,17 +325,6 @@ void op(int k)
                 check = false;
         }
     }
-}
-
-void test()
-{
-    for (int i = 0;i<amount;++i){
-        if (d[i].status)
-            cout <<d[i].num ;
-        if (!d[i].status)
-            cout <<d[i].op ;
-    }
-    cout <<endl;
 }
 
 //arrange +-
